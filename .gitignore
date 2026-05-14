@@ -1,0 +1,8 @@
+.vs/
+build/
+obj/
+
+*.sln*
+*.vcxproj*
+
+imgui.ini
