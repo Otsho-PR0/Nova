@@ -39,7 +39,7 @@ Editor::Editor() :
 	style.PopupRounding = 6.0f;
 	style.ScrollbarRounding = 12.0f;
 	style.GrabRounding = 3.0f;
-	style.TabRounding = 5.0f;
+	style.TabRounding = 4.0f;
 
 	style.WindowBorderSize = 1.0f;
 	style.FrameBorderSize = 0.0f;
@@ -50,32 +50,32 @@ Editor::Editor() :
 
 	ImVec4* colors = style.Colors;
 
-	const ImVec4 Rosewater = ImVec4(0.96078f, 0.87843f, 0.86275f, 1.00f);
-	const ImVec4 Flamingo  = ImVec4(0.94902f, 0.80392f, 0.80392f, 1.00f);
-	const ImVec4 Pink      = ImVec4(0.96078f, 0.76078f, 0.90588f, 1.00f);
-	const ImVec4 Mauve     = ImVec4(0.79608f, 0.65098f, 0.96863f, 1.00f);
-	const ImVec4 Red       = ImVec4(0.95294f, 0.54510f, 0.65882f, 1.00f);
-	const ImVec4 Maroon    = ImVec4(0.92157f, 0.62745f, 0.67451f, 1.00f);
-	const ImVec4 Peach     = ImVec4(0.98039f, 0.70196f, 0.52941f, 1.00f);
-	const ImVec4 Yellow    = ImVec4(0.97647f, 0.88627f, 0.68627f, 1.00f);
-	const ImVec4 Green     = ImVec4(0.65098f, 0.89020f, 0.63137f, 1.00f);
-	const ImVec4 Teal      = ImVec4(0.58039f, 0.88627f, 0.83529f, 1.00f);
-	const ImVec4 Sky       = ImVec4(0.53725f, 0.86275f, 0.92157f, 1.00f);
-	const ImVec4 Sapphire  = ImVec4(0.45490f, 0.78039f, 0.92549f, 1.00f);
-	const ImVec4 Blue      = ImVec4(0.53725f, 0.70588f, 0.98039f, 1.00f);
-	const ImVec4 Lavender  = ImVec4(0.70588f, 0.74510f, 0.99608f, 1.00f);
-	const ImVec4 Text      = ImVec4(0.80392f, 0.83922f, 0.95686f, 1.00f);
-	const ImVec4 Subtext1  = ImVec4(0.72941f, 0.76078f, 0.87059f, 1.00f);
-	const ImVec4 Subtext0  = ImVec4(0.65098f, 0.67843f, 0.78431f, 1.00f);
-	const ImVec4 Overlay2  = ImVec4(0.57647f, 0.60000f, 0.69804f, 1.00f);
-	const ImVec4 Overlay1  = ImVec4(0.49804f, 0.51765f, 0.61176f, 1.00f);
-	const ImVec4 Overlay0  = ImVec4(0.42353f, 0.43922f, 0.52549f, 1.00f);
-	const ImVec4 Surface2  = ImVec4(0.34510f, 0.35686f, 0.43922f, 1.00f);
-	const ImVec4 Surface1  = ImVec4(0.27059f, 0.27843f, 0.35294f, 1.00f);
-	const ImVec4 Surface0  = ImVec4(0.19216f, 0.19608f, 0.26667f, 1.00f);
-	const ImVec4 Base      = ImVec4(0.11765f, 0.11765f, 0.18039f, 1.00f);
-	const ImVec4 Mantle    = ImVec4(0.09412f, 0.09412f, 0.14510f, 1.00f);
-	const ImVec4 Crust     = ImVec4(0.06667f, 0.06667f, 0.10588f, 1.00f);
+	const ImVec4 Rosewater = ImVec4(0.96078f, 0.87843f, 0.86275f, 0.85f);
+	const ImVec4 Flamingo  = ImVec4(0.94902f, 0.80392f, 0.80392f, 0.85f);
+	const ImVec4 Pink      = ImVec4(0.96078f, 0.76078f, 0.90588f, 0.85f);
+	const ImVec4 Mauve     = ImVec4(0.79608f, 0.65098f, 0.96863f, 0.85f);
+	const ImVec4 Red       = ImVec4(0.95294f, 0.54510f, 0.65882f, 0.85f);
+	const ImVec4 Maroon    = ImVec4(0.92157f, 0.62745f, 0.67451f, 0.85f);
+	const ImVec4 Peach     = ImVec4(0.98039f, 0.70196f, 0.52941f, 0.85f);
+	const ImVec4 Yellow    = ImVec4(0.97647f, 0.88627f, 0.68627f, 0.85f);
+	const ImVec4 Green     = ImVec4(0.65098f, 0.89020f, 0.63137f, 0.85f);
+	const ImVec4 Teal      = ImVec4(0.58039f, 0.88627f, 0.83529f, 0.85f);
+	const ImVec4 Sky       = ImVec4(0.53725f, 0.86275f, 0.92157f, 0.85f);
+	const ImVec4 Sapphire  = ImVec4(0.45490f, 0.78039f, 0.92549f, 0.85f);
+	const ImVec4 Blue      = ImVec4(0.53725f, 0.70588f, 0.98039f, 0.85f);
+	const ImVec4 Lavender  = ImVec4(0.70588f, 0.74510f, 0.99608f, 0.85f);
+	const ImVec4 Text      = ImVec4(0.80392f, 0.83922f, 0.95686f, 0.85f);
+	const ImVec4 Subtext1  = ImVec4(0.72941f, 0.76078f, 0.87059f, 0.85f);
+	const ImVec4 Subtext0  = ImVec4(0.65098f, 0.67843f, 0.78431f, 0.85f);
+	const ImVec4 Overlay2  = ImVec4(0.57647f, 0.60000f, 0.69804f, 0.85f);
+	const ImVec4 Overlay1  = ImVec4(0.49804f, 0.51765f, 0.61176f, 0.85f);
+	const ImVec4 Overlay0  = ImVec4(0.42353f, 0.43922f, 0.52549f, 0.85f);
+	const ImVec4 Surface2  = ImVec4(0.34510f, 0.35686f, 0.43922f, 0.85f);
+	const ImVec4 Surface1  = ImVec4(0.27059f, 0.27843f, 0.35294f, 0.85f);
+	const ImVec4 Surface0  = ImVec4(0.19216f, 0.19608f, 0.26667f, 0.85f);
+	const ImVec4 Base      = ImVec4(0.11765f, 0.11765f, 0.18039f, 0.85f);
+	const ImVec4 Mantle    = ImVec4(0.09412f, 0.09412f, 0.14510f, 0.85f);
+	const ImVec4 Crust     = ImVec4(0.06667f, 0.06667f, 0.10588f, 0.85f);
 
 	colors[ImGuiCol_Text] = Text;
 	colors[ImGuiCol_TextDisabled] = Overlay1;
@@ -144,7 +144,7 @@ Editor::Editor() :
 	colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.12f, 0.12f, 0.19f, 0.70f);
 
 	colors[ImGuiCol_DockingPreview] = Surface1;
-	colors[ImGuiCol_DockingEmptyBg] = Surface0;
+	colors[ImGuiCol_DockingEmptyBg] = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 Editor::~Editor()
@@ -195,7 +195,9 @@ void Editor::Update()
 	ImGui::EndMainMenuBar();
 	ImGui::PopStyleVar();
 
+	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
 	ImGui::DockSpaceOverViewport();
+	ImGui::PopStyleColor();
 	ImGui::ShowDemoWindow();
 }
 

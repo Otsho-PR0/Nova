@@ -114,10 +114,6 @@ LRESULT RendererContext::PollEvents(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 {
 	switch (Msg)
 	{
-	case WM_MOVING:
-		Clear(0.0f, 0.0f, 0.0f, 1.0f);
-		Swap();
-		break;
 	case WM_SIZE:
 	{
 		if (m_SwapChain != nullptr)

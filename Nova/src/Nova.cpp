@@ -26,7 +26,7 @@ void Nova::Init(HINSTANCE hInstance)
 	wc.lpszClassName = "Window Class";
 	wc.lpfnWndProc = DefWinProc;
 	wc.style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	//wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	RegisterClass(&wc);
 }
 
