@@ -10,7 +10,7 @@ VertexShader::VertexShader(RendererContext& context, const wchar_t* path)
 	ID3DBlob* error = nullptr;
 	if (std::filesystem::exists(path))
 	{
-		D3DCompileFromFile(path, nullptr, nullptr, "main", "vs_5_0", 0u, 0u, &m_Blob, &error);
+		D3DCompileFromFile(path, nullptr, nullptr, "main", "vs_4_1", 0u, 0u, &m_Blob, &error);
 		if (error)
 			MessageBox(nullptr, (LPCSTR)error->GetBufferPointer(), "Failed compiling Vertex Shader", MB_ICONERROR);
 		context.GetDevice()->CreateVertexShader(m_Blob->GetBufferPointer(), m_Blob->GetBufferSize(), nullptr, &m_Shader);
@@ -38,7 +38,7 @@ PixelShader::PixelShader(RendererContext& context, const wchar_t* path)
 	ID3DBlob* error;
 	if (std::filesystem::exists(path))
 	{
-		D3DCompileFromFile(path, nullptr, nullptr, "main", "ps_5_0", 0u, 0u, &m_Blob, &error);
+		D3DCompileFromFile(path, nullptr, nullptr, "main", "ps_4_1", 0u, 0u, &m_Blob, &error);
 		if (error)
 			MessageBox(nullptr, (LPCSTR)error->GetBufferPointer(), "Failed compiling Pixel Shader", MB_ICONERROR);
 		context.GetDevice()->CreatePixelShader(m_Blob->GetBufferPointer(), m_Blob->GetBufferSize(), nullptr, &m_Shader);
