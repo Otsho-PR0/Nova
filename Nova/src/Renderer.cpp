@@ -1,6 +1,5 @@
 #include <Renderer.hpp>
 
-#include <InputLayout.hpp>
 #include <Buffer.hpp>
 
 RendererContext::RendererContext(HWND& hWnd)
