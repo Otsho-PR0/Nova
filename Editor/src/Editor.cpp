@@ -204,7 +204,7 @@ void Editor::Update()
 void Editor::Render()
 {
 	context.Clear(0.0f, 0.4f, 0.2f, 1.0f);
-	context.DrawTestTriangle();
+	context.DrawTestCube();
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	context.Swap();

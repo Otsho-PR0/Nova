@@ -1,13 +1,20 @@
-struct VS_OUTPUT
+cbuffer c
 {
-	float4 pos : SV_Position;
-	float3 color : COLOR;
+	row_major float4x4 mvp;
 };
 
-VS_OUTPUT main(float2 vPos: POSITION, float3 vColor: COLOR)
+struct VSOUTPUT
 {
-	VS_OUTPUT ret;
-	ret.pos = float4(vPos.x, vPos.y, 0.0f, 1.0f);
-	ret.color = vColor;
-	return ret;
+	float4 vPos : SV_Position;
+	float3 vNormal : NORMAL;
+	float2 vTexCoords : TEXCOORD;
+};
+
+VSOUTPUT main(float3 vPos: POSITION, float3 vNormal: NORMAL, float2 texCoords : TEXCOORD)
+{
+	VSOUTPUT vo;
+	vo.vPos = mul(float4(vPos, 1.0f), mvp);
+	vo.vNormal = vNormal;
+	vo.vTexCoords = texCoords;
+	return vo;
 }

@@ -1,11 +1,13 @@
 #pragma once
 
 #include <Shader.hpp>
+#include <DirectXMath.h>
 
 struct Vertex
 {
-	float x, y;
-	float r, g, b;
+	DirectX::XMFLOAT3 position;
+	DirectX::XMFLOAT3 normal;
+	DirectX::XMFLOAT2 texCoords;
 };
 
 class NOVA_API VertexBuffer
@@ -51,4 +53,34 @@ public:
 
 private:
 	ID3D11InputLayout* m_InputLayout;
+};
+
+class CBuffer
+{
+public:
+	CBuffer(const CBuffer&) = delete;
+	CBuffer() = default;
+	CBuffer(RendererContext& context, void* data, size_t size);
+
+	void Map(RendererContext& context, void* data, size_t size);
+	virtual void Bind(RendererContext& context) = 0;
+
+protected:
+	ID3D11Buffer* m_Buffer;
+};
+
+class VCBuffer : public CBuffer
+{
+public:
+	VCBuffer(RendererContext& context, void* data, size_t size);
+
+	void Bind(RendererContext& context);
+};
+
+class PCBuffer : public CBuffer
+{
+public:
+	PCBuffer(RendererContext& context, void* data, size_t size);
+
+	void Bind(RendererContext& context);
 };

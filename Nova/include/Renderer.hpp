@@ -10,7 +10,7 @@ public:
 	~RendererContext();
 
 	void Clear(float r, float g, float b, float a);
-	void DrawTestTriangle();
+	void DrawTestCube();
 	void Swap();
 
 	void Info();

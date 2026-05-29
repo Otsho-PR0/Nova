@@ -53,3 +53,51 @@ void InputLayout::Bind(RendererContext& context)
 {
 	context.GetContext()->IASetInputLayout(m_InputLayout);
 }
+
+CBuffer::CBuffer(RendererContext& context, void* data, size_t size)
+{
+	if (size % 16 != 0)
+		MessageBox(nullptr, "Constant Buffer should be 16bit aligned", "DirectX Error", MB_OK);
+
+	D3D11_BUFFER_DESC desc = {};
+	desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	desc.ByteWidth = size;
+	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	desc.Usage = D3D11_USAGE_DYNAMIC;
+
+	D3D11_SUBRESOURCE_DATA sd = {};
+	sd.pSysMem = data;
+
+	context.GetDevice()->CreateBuffer(&desc, &sd, &m_Buffer);
+}
+
+void CBuffer::Map(RendererContext& context, void* data, size_t size)
+{
+	if (size % 16 != 0)
+		MessageBox(nullptr, "Constant Buffer should be 16bit aligned", "DirectX Error", MB_OK);
+
+	D3D11_MAPPED_SUBRESOURCE ms;
+	context.GetContext()->Map(m_Buffer, 0u, D3D11_MAP_WRITE_DISCARD, 0u, &ms);
+	memcpy(ms.pData, data, size);
+	context.GetContext()->Unmap(m_Buffer, 0u);
+}
+
+VCBuffer::VCBuffer(RendererContext& context, void* data, size_t size) :
+	CBuffer(context, data, size)
+{
+}
+
+void VCBuffer::Bind(RendererContext& context)
+{
+	context.GetContext()->VSSetConstantBuffers(0u, 1u, &m_Buffer);
+}
+
+PCBuffer::PCBuffer(RendererContext& context, void* data, size_t size) :
+	CBuffer(context, data, size)
+{
+}
+
+void PCBuffer::Bind(RendererContext& context)
+{
+	context.GetContext()->VSSetConstantBuffers(0u, 1u, &m_Buffer);
+}

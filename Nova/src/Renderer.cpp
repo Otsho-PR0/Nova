@@ -55,38 +55,91 @@ RendererContext::~RendererContext()
 	m_SwapChain->Release();
 }
 
-void RendererContext::DrawTestTriangle()
+void RendererContext::DrawTestCube()
 {
-	Vertex vertices[] =
+	static Vertex vertices[] =
 	{
-		{  0.0f,  0.5f, 1.0f, 0.0f, 0.0f },
-		{  0.5f, -0.5f, 0.0f, 1.0f, 0.0f },
-		{ -0.5f, -0.5f, 0.0f, 0.0f, 1.0f }
+		{ {  0.5f,  0.5f,  0.5f }, {  0.0f,  1.0f,  0.0f }, { 1.0f, 0.0f } },
+		{ {  0.5f,  0.5f, -0.5f }, {  0.0f,  1.0f,  0.0f }, { 1.0f, 1.0f } },
+		{ { -0.5f,  0.5f,  0.5f }, {  0.0f,  1.0f,  0.0f }, { 0.0f, 0.0f } },
+		{ { -0.5f,  0.5f, -0.5f }, {  0.0f,  1.0f,  0.0f }, { 0.0f, 1.0f } },
+
+		{ {  0.5f, -0.5f,  0.5f }, {  0.0f, -1.0f,  0.0f }, { 1.0f, 0.0f } },
+		{ { -0.5f, -0.5f,  0.5f }, {  0.0f, -1.0f,  0.0f }, { 0.0f, 0.0f } },
+		{ {  0.5f, -0.5f, -0.5f }, {  0.0f, -1.0f,  0.0f }, { 1.0f, 1.0f } },
+		{ { -0.5f, -0.5f, -0.5f }, {  0.0f, -1.0f,  0.0f }, { 0.0f, 1.0f } },
+
+		{ {  0.5f,  0.5f,  0.5f }, {  0.0f,  0.0f,  1.0f }, { 0.0f, 0.0f } },
+		{ { -0.5f,  0.5f,  0.5f }, {  0.0f,  0.0f,  1.0f }, { 1.0f, 0.0f } },
+		{ {  0.5f, -0.5f,  0.5f }, {  0.0f,  0.0f,  1.0f }, { 0.0f, 1.0f } },
+		{ { -0.5f, -0.5f,  0.5f }, {  0.0f,  0.0f,  1.0f }, { 1.0f, 1.0f } },
+
+		{ {  0.5f,  0.5f, -0.5f }, {  0.0f,  0.0f,  0.0f }, { 1.0f, 0.0f } },
+		{ {  0.5f, -0.5f, -0.5f }, {  0.0f,  0.0f,  0.0f }, { 1.0f, 1.0f } },
+		{ { -0.5f,  0.5f, -0.5f }, {  0.0f,  0.0f,  0.0f }, { 0.0f, 0.0f } },
+		{ { -0.5f, -0.5f, -0.5f }, {  0.0f,  0.0f,  0.0f }, { 0.0f, 1.0f } },
+
+		{ {  0.5f,  0.5f,  0.5f }, {  0.0f,  1.0f,  0.0f }, { 1.0f, 0.0f } },
+		{ {  0.5f, -0.5f,  0.5f }, {  0.0f,  1.0f,  0.0f }, { 1.0f, 1.0f } },
+		{ {  0.5f,  0.5f, -0.5f }, {  0.0f,  1.0f,  0.0f }, { 0.0f, 0.0f } },
+		{ {  0.5f, -0.5f, -0.5f }, {  0.0f,  1.0f,  0.0f }, { 0.0f, 1.0f } },
+
+		{ { -0.5f,  0.5f,  0.5f }, {  0.0f,  1.0f,  0.0f }, { 0.0f, 0.0f } },
+		{ { -0.5f,  0.5f, -0.5f }, {  0.0f,  1.0f,  0.0f }, { 1.0f, 0.0f } },
+		{ { -0.5f, -0.5f,  0.5f }, {  0.0f,  1.0f,  0.0f }, { 0.0f, 1.0f } },
+		{ { -0.5f, -0.5f, -0.5f }, {  0.0f,  1.0f,  0.0f }, { 1.0f, 1.0f } },
 	};
 
-	unsigned int indices[] = { 0u, 1u, 2u };
-
-	VertexShader vs(*this, L"res/Shaders/VertexShader.hlsl");
-	PixelShader  ps(*this, L"res/Shaders/PixelShader.hlsl");
-
-	VertexBuffer vb(*this, vertices, sizeof(vertices));
-	IndexBuffer  ib(*this, indices,  sizeof(indices));
-
-	D3D11_INPUT_ELEMENT_DESC desc[] =
+	static unsigned int indices[] =
 	{
-		{ "POSITION", 0u, DXGI_FORMAT_R32G32_FLOAT, 0u, 0u, D3D11_INPUT_PER_VERTEX_DATA,0u },
-		{ "COLOR", 0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, offsetof(Vertex, r), D3D11_INPUT_PER_VERTEX_DATA,0u},
+		0u, 1u, 2u, 1u, 3u, 2u,
+		4u, 5u, 6u, 5u, 7u, 6u,
+		8u, 9u, 10u, 9u, 11u, 10u,
+		12u, 13u, 14u, 13u, 15u, 14u,
+		16u, 17u, 18u, 17u, 19u, 18u,
+		20u, 21u, 22u, 21u, 23u, 22u
 	};
 
-	InputLayout il(*this, desc, sizeof(desc), vs);
+	struct CBuff
+	{
+		DirectX::XMMATRIX mvp;
+	};
+
+	static float yaw = 0.0f;
+	yaw += 0.01f;
+	static float pitsh = 0.0f;
+	pitsh += 0.01f;
+
+	static CBuff data = { DirectX::XMMatrixRotationX(pitsh) * DirectX::XMMatrixRotationY(yaw) * DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0.0f, 0.0f, -3.0f, 1.0f), DirectX::XMVectorSet(0.0f, 0.0f, -2.0f, 1.0f), DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 1.0f)) * DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45.0f), 1024.0f / 600.0f, 0.1f, 10.0f) };
+	data = { DirectX::XMMatrixRotationX(pitsh) * DirectX::XMMatrixRotationY(yaw) * DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0.0f, 0.0f, -3.0f, 1.0f), DirectX::XMVectorSet(0.0f, 0.0f, -2.0f, 1.0f), DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 1.0f)) * DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45.0f), 1024.0f / 600.0f, 0.1f, 10.0f) };
+
+	static VCBuffer vcb(*this, &data, sizeof(data));
+
+	static VertexShader vs(*this, L"res/Shaders/VertexShader.hlsl");
+	static PixelShader  ps(*this, L"res/Shaders/PixelShader.hlsl");
+
+	static VertexBuffer vb(*this, vertices, sizeof(vertices));
+	static IndexBuffer  ib(*this, indices,  sizeof(indices));
+
+	static D3D11_INPUT_ELEMENT_DESC desc[] =
+	{
+		{ "POSITION", 0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, 0u, D3D11_INPUT_PER_VERTEX_DATA, 0u },
+		{ "NORMAL", 0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, offsetof(Vertex, normal), D3D11_INPUT_PER_VERTEX_DATA, 0u },
+		{ "TEXCOORD", 0u, DXGI_FORMAT_R32G32_FLOAT, 0u, offsetof(Vertex, texCoords), D3D11_INPUT_PER_VERTEX_DATA, 0u }
+	};
+
+	static InputLayout il(*this, desc, sizeof(desc), vs);
+
+	vcb.Map(*this, &data, sizeof(data));
 
 	vs.Bind(*this);
 	ps.Bind(*this);
 	il.Bind(*this);
+	vcb.Bind(*this);
 	vb.Bind(*this);
 	ib.Bind(*this);
 	GetContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	GetContext()->DrawIndexed(3u, 0u, 0);
+	GetContext()->DrawIndexed(sizeof(indices) / sizeof(unsigned int), 0u, 0);
 }
 
 void RendererContext::Swap()
