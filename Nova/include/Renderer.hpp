@@ -15,7 +15,7 @@ public:
 
 	void Info();
 
-	LRESULT CALLBACK PollEvents(HWND, UINT, WPARAM, LPARAM);
+	LRESULT CALLBACK PollEvents(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 
 	ID3D11Device* GetDevice();
 	ID3D11DeviceContext* GetContext();

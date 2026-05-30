@@ -1,6 +1,8 @@
 #include <Renderer.hpp>
 
+#include <Input.hpp>
 #include <Buffer.hpp>
+#include <string>
 
 RendererContext::RendererContext(HWND& hWnd)
 {
@@ -74,27 +76,27 @@ void RendererContext::DrawTestCube()
 		{ {  0.5f, -0.5f,  0.5f }, {  0.0f,  0.0f,  1.0f }, { 0.0f, 1.0f } },
 		{ { -0.5f, -0.5f,  0.5f }, {  0.0f,  0.0f,  1.0f }, { 1.0f, 1.0f } },
 
-		{ {  0.5f,  0.5f, -0.5f }, {  0.0f,  0.0f,  0.0f }, { 1.0f, 0.0f } },
-		{ {  0.5f, -0.5f, -0.5f }, {  0.0f,  0.0f,  0.0f }, { 1.0f, 1.0f } },
-		{ { -0.5f,  0.5f, -0.5f }, {  0.0f,  0.0f,  0.0f }, { 0.0f, 0.0f } },
-		{ { -0.5f, -0.5f, -0.5f }, {  0.0f,  0.0f,  0.0f }, { 0.0f, 1.0f } },
+		{ {  0.5f,  0.5f, -0.5f }, {  0.0f,  0.0f, -1.0f }, { 1.0f, 0.0f } },
+		{ {  0.5f, -0.5f, -0.5f }, {  0.0f,  0.0f, -1.0f }, { 1.0f, 1.0f } },
+		{ { -0.5f,  0.5f, -0.5f }, {  0.0f,  0.0f, -1.0f }, { 0.0f, 0.0f } },
+		{ { -0.5f, -0.5f, -0.5f }, {  0.0f,  0.0f, -1.0f }, { 0.0f, 1.0f } },
 
-		{ {  0.5f,  0.5f,  0.5f }, {  0.0f,  1.0f,  0.0f }, { 1.0f, 0.0f } },
-		{ {  0.5f, -0.5f,  0.5f }, {  0.0f,  1.0f,  0.0f }, { 1.0f, 1.0f } },
-		{ {  0.5f,  0.5f, -0.5f }, {  0.0f,  1.0f,  0.0f }, { 0.0f, 0.0f } },
-		{ {  0.5f, -0.5f, -0.5f }, {  0.0f,  1.0f,  0.0f }, { 0.0f, 1.0f } },
+		{ {  0.5f,  0.5f,  0.5f }, {  1.0f,  0.0f,  0.0f }, { 1.0f, 0.0f } },
+		{ {  0.5f, -0.5f,  0.5f }, {  1.0f,  0.0f,  0.0f }, { 1.0f, 1.0f } },
+		{ {  0.5f,  0.5f, -0.5f }, {  1.0f,  0.0f,  0.0f }, { 0.0f, 0.0f } },
+		{ {  0.5f, -0.5f, -0.5f }, {  1.0f,  0.0f,  0.0f }, { 0.0f, 1.0f } },
 
-		{ { -0.5f,  0.5f,  0.5f }, {  0.0f,  1.0f,  0.0f }, { 0.0f, 0.0f } },
-		{ { -0.5f,  0.5f, -0.5f }, {  0.0f,  1.0f,  0.0f }, { 1.0f, 0.0f } },
-		{ { -0.5f, -0.5f,  0.5f }, {  0.0f,  1.0f,  0.0f }, { 0.0f, 1.0f } },
-		{ { -0.5f, -0.5f, -0.5f }, {  0.0f,  1.0f,  0.0f }, { 1.0f, 1.0f } },
+		{ { -0.5f,  0.5f,  0.5f }, { -1.0f,  0.0f,  0.0f }, { 0.0f, 0.0f } },
+		{ { -0.5f,  0.5f, -0.5f }, { -1.0f,  0.0f,  0.0f }, { 1.0f, 0.0f } },
+		{ { -0.5f, -0.5f,  0.5f }, { -1.0f,  0.0f,  0.0f }, { 0.0f, 1.0f } },
+		{ { -0.5f, -0.5f, -0.5f }, { -1.0f,  0.0f,  0.0f }, { 1.0f, 1.0f } },
 	};
 
 	static unsigned int indices[] =
 	{
-		0u, 1u, 2u, 1u, 3u, 2u,
-		4u, 5u, 6u, 5u, 7u, 6u,
-		8u, 9u, 10u, 9u, 11u, 10u,
+		 0u,  1u,  2u,  1u,  3u,  2u,
+		 4u,  5u,  6u,  5u,  7u,  6u,
+		 8u,  9u, 10u,  9u, 11u, 10u,
 		12u, 13u, 14u, 13u, 15u, 14u,
 		16u, 17u, 18u, 17u, 19u, 18u,
 		20u, 21u, 22u, 21u, 23u, 22u
@@ -106,12 +108,15 @@ void RendererContext::DrawTestCube()
 	};
 
 	static float yaw = 0.0f;
-	yaw += 0.01f;
+	yaw += Input::GetKey(VK_RIGHT) * .02f;
+	yaw -= Input::GetKey(VK_LEFT)  * .02f;
 	static float pitsh = 0.0f;
-	pitsh += 0.01f;
+	pitsh += Input::GetKey(VK_DOWN) * .02f;
+	pitsh -= Input::GetKey(VK_UP)  * .02f;
+	pitsh = DirectX::XMMin(DirectX::XMMax(pitsh, -1.570796327f), 1.570796327f);
 
-	static CBuff data = { DirectX::XMMatrixRotationX(pitsh) * DirectX::XMMatrixRotationY(yaw) * DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0.0f, 0.0f, -3.0f, 1.0f), DirectX::XMVectorSet(0.0f, 0.0f, -2.0f, 1.0f), DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 1.0f)) * DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45.0f), 1024.0f / 600.0f, 0.1f, 10.0f) };
-	data = { DirectX::XMMatrixRotationX(pitsh) * DirectX::XMMatrixRotationY(yaw) * DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0.0f, 0.0f, -3.0f, 1.0f), DirectX::XMVectorSet(0.0f, 0.0f, -2.0f, 1.0f), DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 1.0f)) * DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45.0f), 1024.0f / 600.0f, 0.1f, 10.0f) };
+	static CBuff data = { DirectX::XMMatrixRotationY(yaw) * DirectX::XMMatrixRotationX(pitsh) * DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0.0f, 0.0f, -3.0f, 1.0f), DirectX::XMVectorSet(0.0f, 0.0f, -2.0f, 1.0f), DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 1.0f)) * DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45.0f), m_Viewport.Width / m_Viewport.Height, 0.1f, 10.0f) };
+	data = { DirectX::XMMatrixRotationY(yaw) * DirectX::XMMatrixRotationX(pitsh) * DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0.0f, 0.0f, -3.0f, 1.0f), DirectX::XMVectorSet(0.0f, 0.0f, -2.0f, 1.0f), DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 1.0f)) * DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45.0f), m_Viewport.Width / m_Viewport.Height, 0.1f, 10.0f) };
 
 	static VCBuffer vcb(*this, &data, sizeof(data));
 
